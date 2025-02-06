@@ -2,7 +2,9 @@ services:
   web:
     build: .
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py shell < talatrivia/management/commands/createsuperuser.py &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
@@ -13,6 +15,9 @@ services:
       - POSTGRES_DB=talatrivia
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=admin123
     depends_on:
       - db
 

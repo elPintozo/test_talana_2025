@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,6 +33,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # Local apps
+    'equipo',
+    'trivia',
 
     # Django apps
     'django.contrib.admin',
@@ -43,9 +46,12 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',
+    'corsheaders',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,3 +137,37 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    # Autenticación y permisos predeterminados
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        #'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT Authentication
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # Solo usuarios autenticados
+    ),
+    # Paginación
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Si tienes un frontend en React/Vue/Angular
+    "https://midominio.com",  # Agrega el dominio de producción
+    "http://localhost:8000" # local
+]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Duración del token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Duración del refresh token
+    'ROTATE_REFRESH_TOKENS': True,  # Para rotar refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,  # Invalidar refresh tokens antiguos
+    'ALGORITHM': 'HS256',  # Algoritmo de encriptación
+    'SIGNING_KEY': SECRET_KEY,  # Clave para firmar los tokens (puedes usar otra)
+    'AUTH_HEADER_TYPES': ('Bearer',),  # Prefijo para enviar el token
+}

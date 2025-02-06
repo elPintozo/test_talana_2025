@@ -175,3 +175,7 @@ data/
 
 # pyenv
 .python-version
+
+# remove django migrations, pero solo dejar los __init__.py
+**/migrations/*.py
+!**/migrations/__init__.py
