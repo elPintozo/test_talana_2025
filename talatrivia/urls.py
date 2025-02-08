@@ -21,12 +21,26 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,  # Para renovar el token de acceso con el refresh token
     TokenVerifyView  # Para verificar si un token es válido
 )
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView
+)
 
 urlpatterns = [
+    # Django admin
     path('admin/', admin.site.urls),
+
+    # Rutas del swagger
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    
+    # Rutas de la aplicación 'trivia'
     path('api/', include('trivia.urls')),  # Incluir las rutas de la aplicación 'trivia'
     path('api/', include('equipo.urls')),  # Incluir las rutas de la aplicación 'equipo'
-
+    
+    # Rutas de autenticación
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Login
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Renovar token
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),  # Verificar token

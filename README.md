@@ -1,5 +1,5 @@
 # test_talana_2025
-Prueba técnica para talana -2025
+Prueba técnica para talana - 2025
 
 ### Instrucciones
 
@@ -15,7 +15,7 @@ Prueba técnica para talana -2025
     ```
 
 3. Accede a la aplicación:
-    - La aplicación estará disponible en `http://localhost:8000`
+    - La apis disponibles están en el siguiente link: http://0.0.0.0:8000/api/schema/swagger-ui/#/
 
 ### Detener los contenedores
 

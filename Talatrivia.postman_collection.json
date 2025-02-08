@@ -84,6 +84,27 @@
 					"response": []
 				},
 				{
+					"name": "Obtener detalle de pregunta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://127.0.0.1:8000/api/pregunta/4"
+					},
+					"response": []
+				},
+				{
 					"name": "Crear pregunta",
 					"request": {
 						"auth": {
@@ -102,7 +123,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dificultad\": \"medio\",\n    \"pregunta\": \"Tiene estacionamientos la empresa?\"\n}",
+							"raw": "{\n    \"dificultad\": \"medio\",\n    \"pregunta\": \"¿Cuál es el nombre del gerente?\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -132,22 +153,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pregunta\": \"¿Cuál es la dirección de la empresa?\"\n}",
+							"raw": "{\n    \"pregunta\": \"¿Tiene estacionamientos la empresa?\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://127.0.0.1:8000/api/pregunta/1"
+						"url": "http://127.0.0.1:8000/api/pregunta/2"
 					},
 					"response": []
 				},
 				{
-					"name": "Obtener pregunta especifica",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "Eliminar pregunta",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -155,7 +173,7 @@
 								"token": "{{jwt-token}}"
 							}
 						},
-						"method": "GET",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -165,37 +183,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"pregunta\": \"¿Tiene estacionamientos la empresa?\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/pregunta/1/alternativas",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"pregunta",
-								"1",
-								"alternativas"
-							],
-							"query": [
-								{
-									"key": "pk",
-									"value": "1",
-									"disabled": true
-								}
-							]
-						}
+						"url": "http://127.0.0.1:8000/api/pregunta/5"
 					},
 					"response": []
 				}
@@ -244,7 +239,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pregunta\": 1,\n    \"alternativa\": \"Los Militares 4777, Las condes\",\n    \"correcta\": true\n}",
+							"raw": "{\n  \"alternativa\": \"0 estacionamientos.\",\n  \"correcta\": false,\n  \"pregunta\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -274,14 +269,44 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"pregunta\": 1,\n    \"alternativa\": \"Americo vespucio sur 800, Las condes.\"\n}",
+							"raw": "{\n    \"alternativa\": \"10 estacionamientos.\",\n    \"correcta\": false,\n    \"pregunta\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://127.0.0.1:8000/api/alternativa/1"
+						"url": "http://127.0.0.1:8000/api/alternativa/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar una alternativa",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alternativa\": \"10 estacionamientos.\",\n    \"correcta\": false,\n    \"pregunta\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/alternativa/9"
 					},
 					"response": []
 				},
@@ -305,6 +330,62 @@
 						"url": "http://127.0.0.1:8000/api/alternativa/1"
 					},
 					"response": []
+				},
+				{
+					"name": "Obtener alternativas de una pregunta",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/pregunta/3/alternativas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"pregunta",
+								"3",
+								"alternativas"
+							],
+							"query": [
+								{
+									"key": "pk",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -323,6 +404,45 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://127.0.0.1:8000/api/respuesta/"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener  una respuesta especifica",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/respuesta/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar respuesta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pregunta\": 2,\n    \"alternativa\": 3,\n    \"trabajador\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/respuesta/2"
 					},
 					"response": []
 				},
@@ -371,6 +491,21 @@
 					"response": []
 				},
 				{
+					"name": "Obtener un trabajador especifico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/trabajador/4"
+					},
+					"response": []
+				},
+				{
 					"name": "Crear trabajador",
 					"request": {
 						"auth": {
@@ -411,6 +546,21 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://127.0.0.1:8000/api/trabajador/administrador"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener los detalles de un administador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/trabajador/administrador/3"
 					},
 					"response": []
 				},
@@ -461,8 +611,24 @@
 				{
 					"name": "Crear una nueva trivia",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
 						"method": "POST",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Trivia de bienvenida\",\n    \"descripcion\": \"El que gana, obtiene un día libre\",\n    \"preguntas\": [1,2],\n    \"trabajadores\": [1,3]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/trivia/"
 					},
 					"response": []
 				}
